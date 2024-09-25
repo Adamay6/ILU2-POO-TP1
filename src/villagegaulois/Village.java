@@ -1,5 +1,7 @@
 package villagegaulois;
 
+import java.util.Iterator;
+
 import personnages.Chef;
 import personnages.Gaulois;
 
@@ -8,6 +10,49 @@ public class Village {
 	private Chef chef;
 	private Gaulois[] villageois;
 	private int nbVillageois = 0;
+	
+	public class Marche {
+		private Etal[] etals;
+		
+		public Marche(int nbEtals) {
+			for (int i = 0; i < nbEtals; i++) {
+				etals[i] = new Etal() ;
+			}
+		}
+		
+		public void utiliserEtal(int indiceEtal, Gaulois vendeur, String produit, int nbProduit) {
+			 etals[indiceEtal].occuperEtal(vendeur,produit,nbProduit);
+		}
+		
+		public int trouverEtalLibre(){
+			for (int i = 0; i < etals.length;i++) {
+				if(!etals[i].isEtalOccupe())
+					return i;
+			}
+			return -1;
+		}
+		
+		public Etal[] trouverEtals(String produit) {
+			int nbProd=0;
+			for (int i = 0; i < etals.length; i++) {
+				if(etals[i].isEtalOccupe() && etals[i].contientProduit(produit)) {
+					nbProd++;
+				}
+			}
+			Etal[] etalProd = new Etal[nbProd];
+			for (int i = 0, j=0; i < etals.length; i++) {
+					if(etals[i].isEtalOccupe() && etals[i].contientProduit(produit)) {
+						etalProd[j]= etals[i];
+						j++;
+					}
+			}
+			return etalProd;
+		}
+		
+		public Etal trouverVendeur(Gaulois gaulois) {
+			
+		}
+	}
 
 	public Village(String nom, int nbVillageoisMaximum) {
 		this.nom = nom;
